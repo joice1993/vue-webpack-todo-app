@@ -20,7 +20,9 @@
             }
         },
         methods: {
-            deleteTodo() {}
+            deleteTodo() {
+                this.$emit('del', this.todo.id);//使用$emit触发父组件的del事件，并把当前todo.id传过去
+            }
         }
     }
 </script>

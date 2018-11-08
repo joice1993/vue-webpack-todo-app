@@ -1,6 +1,6 @@
 <template>
     <div class="helper">
-        <span class="left">2 items left</span>
+        <span class="left">{{unFinishedTodoLength}} items left</span>
         <span class="tabs">
             <span
                 v-for="state in states"
@@ -18,10 +18,15 @@
 <script>
     export default {
         name: "tabs",
+        //props接收父组件传过来的值
         props: {
             filter: {
                 type: String,
                 required: true,
+            },
+            todos: {
+                type: Array,
+                required: true
             }
         },
         data() {
@@ -29,9 +34,19 @@
                 states: ['all','active','completed']
             }
         },
+        computed: {
+            unFinishedTodoLength() {
+                //filter过滤筛选数组中没有完成的
+                return this.todos.filter(todo => !todo.completed).length
+            }
+        },
         methods: {
-            clearAllCompleted() {},
-            toggleFilter() {},
+            clearAllCompleted() {
+                this.$emit('clearAllCompleted')
+            },
+            toggleFilter(state) {
+                this.$emit('toggle',state);//把选择toggle的类型state传给父组件
+            },
         }
     }
 </script>
